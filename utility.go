@@ -1,9 +1,11 @@
 package utility
 
 import (
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"math"
+	"math/rand"
 	"net"
 	"path/filepath"
 	"time"
@@ -12,28 +14,6 @@ import (
 const (
 	timeFormat = "2006-01-02T15-04-05.000"
 )
-
-// var languages map[string]string
-//
-// func init() {
-// 	languages = make(map[string]string)
-// 	languages["cs"] = "C #"
-// 	languages["js"] = "JavaScript"
-// 	languages["rb"] = "Ruby"
-// 	languages["go"] = "Golang"
-// }
-//
-// func Get(key string) string {
-// 	return languages[key]
-// }
-//
-// func Add(key, value string) {
-// 	languages[key] = value
-// }
-//
-// func GetAll() map[string]string {
-// 	return languages
-// }
 
 // RoundFloat64 rounds numbers
 func RoundFloat64(val float64, places int) float64 {
@@ -171,4 +151,24 @@ func CalcSettlementDate(today time.Time, bankHolidayMap map[time.Time]bool) (set
 	}
 
 	return settlementDate
+}
+
+// GenRandomString returns a hexadecimal random string
+func GenRandomString(strlen int) string {
+	if strlen <= 0 {
+		return ""
+	}
+
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	rand.Seed(time.Now().UTC().UnixNano())
+	result := make([]byte, strlen)
+
+	// make randon string
+	for i := 0; i < strlen; i++ {
+		result[i] = chars[rand.Intn(len(chars))]
+	}
+
+	// hex encode string
+	hexString := hex.EncodeToString(result)
+	return hexString
 }

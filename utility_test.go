@@ -1,6 +1,7 @@
 package utility
 
 import (
+	"encoding/hex"
 	"fmt"
 	"path/filepath"
 	"testing"
@@ -52,8 +53,6 @@ func TestRoundDuration(t *testing.T) {
 				roundTo time.Duration
 				result  time.Duration
 			}
-
-			// TODO more test data!
 
 			// define test data
 			var tests = []testdata{
@@ -226,6 +225,38 @@ func TestCalcSettlementDate(t *testing.T) {
 				testDate, _ := time.Parse(timeFormat, testData.date)
 				result := CalcSettlementDate(testDate, bankHolidayMap)
 				So(result.Format(timeFormat), ShouldEqual, testData.result)
+			}
+		})
+	})
+}
+
+func TestGenRandomString(t *testing.T) {
+	Convey("Generate a hexadecimal random string", t, func() {
+		Convey("should return a valid hexadecimal string of length l", func() {
+
+			// define input and expected result
+			type testdata struct {
+				length int
+				result int
+			}
+
+			// define test data.  Hexidecimal
+			// is double the length
+			var tests = []testdata{
+				{0, 0}, // err test
+				{1, 2},
+				{2, 4},
+				{20, 40},
+				{-1, 0}, // err test
+			}
+
+			// run tests
+			for _, test := range tests {
+				result := GenRandomString(test.length)
+				// make sure it's hex (we can decode it)
+				_, err := hex.DecodeString(result)
+				So(err, ShouldBeNil)
+				So(len(result), ShouldEqual, test.result)
 			}
 		})
 	})
