@@ -1,0 +1,3 @@
+package: github.com/dstroot/utility
+import:
+- package: github.com/smartystreets/goconvey/convey
