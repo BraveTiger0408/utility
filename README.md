@@ -31,15 +31,6 @@ Installing
 
 then run `rules_engine`.  
 
-Docker
-------
-
-All you have to do is run `./docker_build.sh` and boom!
-
-To run the docker image locally:
-
-    $ docker run --rm -it -p 8000:8000 dstroot/rules_engine
-
 
 TODO
 ----
