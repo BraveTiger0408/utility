@@ -186,21 +186,20 @@ func TestCalcSettlementDate(t *testing.T) {
 	Convey("Calculate settement date", t, func() {
 		Convey("should return a valid settlement date", func() {
 
-			const timeFormat = "2006-01-02"
+			const timeFormat = "060102"
 
 			// Make a map of bank holidays
-			var bankHolidayMap = make(map[time.Time]bool)
+			var bankHolidayMap = make(map[string]bool)
 
 			var holidayList = []string{
-				"2016-07-04",
-				"2016-09-04",
-				"2016-10-09",
-				"2016-11-10",
+				"160704",
+				"160904",
+				"161009",
+				"161110",
 			}
 
 			for _, holiday := range holidayList {
-				holidayDate, _ := time.Parse(timeFormat, holiday)
-				bankHolidayMap[holidayDate] = true
+				bankHolidayMap[holiday] = true
 			}
 
 			// define input and expected result
@@ -211,13 +210,13 @@ func TestCalcSettlementDate(t *testing.T) {
 
 			// define test data
 			var tests = []testpair{
-				{"2016-06-29", "2016-06-30"}, // regular weekday
-				{"2016-06-30", "2016-07-01"}, // Thursday
-				{"2016-07-01", "2016-07-05"}, // weekend & *holiday
-				{"2016-07-08", "2016-07-11"}, // Friday
-				{"2016-07-09", "2016-07-11"}, // Saturday
-				{"2016-07-10", "2016-07-11"}, // Sunday
-				{"2016-07-04", "2016-07-05"}, // *holiday
+				{"160629", "160630"}, // regular weekday
+				{"160630", "160701"}, // Thursday
+				{"160701", "160705"}, // weekend & *holiday
+				{"160708", "160711"}, // Friday
+				{"160709", "160711"}, // Saturday
+				{"160710", "160711"}, // Sunday
+				{"160704", "160705"}, // *holiday
 			}
 
 			// run tests

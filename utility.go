@@ -13,6 +13,7 @@ import (
 
 const (
 	timeFormat = "2006-01-02T15-04-05.000"
+	dateFormat = "060102"
 )
 
 // RoundFloat64 rounds numbers
@@ -122,34 +123,30 @@ func Padding(s string, length int, justified string, padChar string) (string, er
 // CalcSettlementDate takes in today's date (basically "now") along with a
 // a map of bank holidays and it calculates to correct settlement date for
 // ACH transactions.
-func CalcSettlementDate(today time.Time, bankHolidayMap map[time.Time]bool) (settlementDate time.Time) {
-
-	// NOTE: There is no definition in Go
-	// for units of Day or larger to avoid confusion across
-	// daylight savings time zone transitions. So we use hours.
+func CalcSettlementDate(today time.Time, bankHolidayMap map[string]bool) time.Time {
 
 	// settlement is tomorrow.
-	settlementDate = today.Add(time.Hour * 24)
+	settlementDate := today.AddDate(0, 0, 1)
 
 	// unless tomorrow is Saturday, then it's Monday
 	if "Saturday" == settlementDate.Weekday().String() {
 		// add two more days (cover the weekend)
-		settlementDate = settlementDate.Add(time.Hour * 48)
+		settlementDate = settlementDate.AddDate(0, 0, 2)
 	}
 
 	// unless tomorrow is Sunday, then it's Monday
 	if "Sunday" == settlementDate.Weekday().String() {
 		// add one more day (cover the weekend)
-		settlementDate = settlementDate.Add(time.Hour * 24)
+		settlementDate = settlementDate.AddDate(0, 0, 1)
 	}
 
 	// unless the calculated settlement day is a
 	// holiday, then add one more day.
-	_, found := bankHolidayMap[settlementDate]
+	date := settlementDate.Format(dateFormat)
+	_, found := bankHolidayMap[date]
 	if found {
-		settlementDate = settlementDate.Add(time.Hour * 24)
+		settlementDate = settlementDate.AddDate(0, 0, 1)
 	}
-
 	return settlementDate
 }
 
