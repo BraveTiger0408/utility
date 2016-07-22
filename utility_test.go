@@ -196,13 +196,14 @@ func TestCalcSettlementDate(t *testing.T) {
 				"160904",
 				"161009",
 				"161110",
+				"160722", // Friday holiday
 			}
 
 			for _, holiday := range holidayList {
 				bankHolidayMap[holiday] = true
 			}
 
-			// define input and expected result
+			// define input date and expected result
 			type testpair struct {
 				date   string
 				result string
@@ -217,6 +218,7 @@ func TestCalcSettlementDate(t *testing.T) {
 				{"160709", "160711"}, // Saturday
 				{"160710", "160711"}, // Sunday
 				{"160704", "160705"}, // *holiday
+				{"160721", "160725"}, // *holiday falls on Friday
 			}
 
 			// run tests

@@ -146,6 +146,16 @@ func CalcSettlementDate(today time.Time, bankHolidayMap map[string]bool) time.Ti
 	_, found := bankHolidayMap[date]
 	if found {
 		settlementDate = settlementDate.AddDate(0, 0, 1)
+
+		if "Saturday" == settlementDate.Weekday().String() {
+			// add two more days (cover the weekend)
+			settlementDate = settlementDate.AddDate(0, 0, 2)
+		}
+
+		if "Sunday" == settlementDate.Weekday().String() {
+			// add one more day (cover the weekend)
+			settlementDate = settlementDate.AddDate(0, 0, 1)
+		}
 	}
 	return settlementDate
 }
