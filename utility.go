@@ -69,7 +69,7 @@ func MakeFileName(fileExtension string, directory string) string {
 	return filepath.Join(directory, fmt.Sprintf("%s%s", timestamp, fileExtension))
 }
 
-// GetLocalIP returns the non loopback local IP of the host
+// GetLocalIP returns the non-loopback local IP of the host
 func GetLocalIP() (ip string, err error) {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
