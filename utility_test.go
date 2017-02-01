@@ -2,13 +2,35 @@ package utility
 
 import (
 	"encoding/hex"
+	"errors"
 	"fmt"
+	"os"
+	"os/exec"
 	"path/filepath"
 	"testing"
 	"time"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
+
+// Test that Check(e) exits
+// this is how you test fails
+func TestCheck(t *testing.T) {
+	err := errors.New("test check function")
+
+	if os.Getenv("CRASHED") == "1" {
+		Check(err)
+		return
+	}
+
+	cmd := exec.Command(os.Args[0], "-test.run=TestCheck")
+	cmd.Env = append(os.Environ(), "CRASHED=1")
+	err = cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
+}
 
 func TestRoundFloat64(t *testing.T) {
 	Convey("Round a float64 to x decimal places", t, func() {

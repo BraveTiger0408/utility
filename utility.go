@@ -4,9 +4,11 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"log"
 	"math"
 	"math/rand"
 	"net"
+	"os"
 	"path/filepath"
 	"time"
 )
@@ -15,6 +17,15 @@ const (
 	timeFormat = "2006-01-02T15-04-05.000"
 	dateFormat = "060102"
 )
+
+// Check streamlines error checks - use it *only*
+// when the program should halt
+func Check(e error) {
+	if e != nil {
+		log.Printf("FATAL: %+v\n", e)
+		os.Exit(1)
+	}
+}
 
 // RoundFloat64 rounds numbers
 func RoundFloat64(val float64, places int) float64 {
