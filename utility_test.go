@@ -263,8 +263,8 @@ func TestGenRandomString(t *testing.T) {
 				result int
 			}
 
-			// define test data.  Hexidecimal
-			// is double the length
+			// define test data.  Hexadecimal
+			// result is double the length
 			var tests = []testdata{
 				{0, 0}, // err test
 				{1, 2},
