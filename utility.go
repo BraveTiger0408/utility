@@ -27,6 +27,26 @@ func Check(e error) {
 	}
 }
 
+// SliceIndex figures out the index of slice given a value in the slice.
+// http://stackoverflow.com/questions/8307478/go-how-to-find-out-element-position-in-slice
+// It's used to find the slice position of the process activity step.
+// Then we use that to calculate the next action.  Usage:
+// xs := []int{2, 4, 6, 8}
+// ys := []string{"C", "B", "K", "A"}
+// fmt.Println(
+//     SliceIndex(len(xs), func(i int) bool { return xs[i] == 5 }),
+//     SliceIndex(len(xs), func(i int) bool { return xs[i] == 6 }),
+//     SliceIndex(len(ys), func(i int) bool { return ys[i] == "Z" }),
+//     SliceIndex(len(ys), func(i int) bool { return ys[i] == "A" }))
+func SliceIndex(limit int, predicate func(i int) bool) (int, error) {
+	for i := 0; i < limit; i++ {
+		if predicate(i) {
+			return i, nil
+		}
+	}
+	return -1, errors.New("not found in slice")
+}
+
 // RoundFloat64 rounds numbers
 func RoundFloat64(val float64, places int) float64 {
 	var round float64

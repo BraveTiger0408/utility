@@ -32,6 +32,32 @@ func TestCheck(t *testing.T) {
 	t.Fatalf("process ran with err %v, want exit status 1", err)
 }
 
+func TestSliceIndex(t *testing.T) {
+	Convey("Slice index", t, func() {
+		Convey("should return element position in slice", func() {
+
+			xs := []int{2, 4, 6, 8}
+			ys := []string{"C", "B", "K", "A"}
+
+			index, err := SliceIndex(len(xs), func(i int) bool { return xs[i] == 5 })
+			So(index, ShouldEqual, -1)
+			So(err, ShouldNotBeNil)
+
+			index, err = SliceIndex(len(xs), func(i int) bool { return xs[i] == 6 })
+			So(index, ShouldEqual, 2)
+			So(err, ShouldBeNil)
+
+			index, err = SliceIndex(len(ys), func(i int) bool { return ys[i] == "Z" })
+			So(index, ShouldEqual, -1)
+			So(err, ShouldNotBeNil)
+
+			index, err = SliceIndex(len(ys), func(i int) bool { return ys[i] == "A" })
+			So(index, ShouldEqual, 3)
+			So(err, ShouldBeNil)
+		})
+	})
+}
+
 func TestRoundFloat64(t *testing.T) {
 	Convey("Round a float64 to x decimal places", t, func() {
 		Convey("should return a valid rounded float64", func() {
