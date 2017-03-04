@@ -22,7 +22,7 @@
 
 // Package utility is a small library of go utility functions.  It can round
 // floats, durations, check equivalency of floats, generate random hexadecimal
-// strings, find the index value of a given lsice value, etc.
+// strings, find the index value of a given slice value, make file names, etc.
 package utility
 
 import (
