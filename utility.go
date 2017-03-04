@@ -56,6 +56,7 @@ func Check(e error) {
 // http://stackoverflow.com/questions/8307478/go-how-to-find-out-element-position-in-slice
 // It's used to find the slice position of the process activity step.
 // Then we use that to calculate the next action.  Usage:
+//
 // xs := []int{2, 4, 6, 8}
 // ys := []string{"C", "B", "K", "A"}
 // fmt.Println(
